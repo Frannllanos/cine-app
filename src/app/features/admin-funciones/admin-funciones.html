@@ -1,0 +1,301 @@
+<section class="admin-funciones">
+
+  <header>
+
+    <p class="etiqueta">
+      ADMINISTRACIÓN
+    </p>
+
+    <h1>
+      Funciones y salas
+    </h1>
+
+    <p>
+      Elegí película y horario.
+      La sala se asigna automáticamente.
+    </p>
+
+  </header>
+
+
+  @if (mensaje()) {
+
+    <div class="mensaje">
+
+      {{ mensaje() }}
+
+    </div>
+
+  }
+
+
+  <div class="layout">
+
+    <form
+      class="formulario"
+      [formGroup]="formulario"
+      (ngSubmit)="guardar()">
+
+
+      <h2>
+        Nueva función
+      </h2>
+
+
+      <label>
+        Película
+      </label>
+
+
+      <select
+        formControlName="pelicula_id">
+
+        <option [value]="0">
+          Seleccionar película
+        </option>
+
+
+        @for (
+          pelicula of peliculas();
+          track pelicula.id
+        ) {
+
+          <option
+            [value]="pelicula.id">
+
+            {{ pelicula.nombre }}
+            ·
+            {{ pelicula.duracion }} min
+
+          </option>
+
+        }
+
+      </select>
+
+
+      <label>
+        Fecha y hora
+      </label>
+
+
+      <input
+        type="datetime-local"
+
+        [min]="minFechaHora"
+
+        formControlName="fecha_hora">
+
+
+      <div class="doble">
+
+        <div>
+
+          <label>
+            Formato
+          </label>
+
+
+          <select
+            formControlName="formato">
+
+            <option value="2D">
+              2D
+            </option>
+
+            <option value="3D">
+              3D
+            </option>
+
+            <option value="4D">
+              4D
+            </option>
+
+            <option value="5D">
+              5D
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Idioma
+          </label>
+
+
+          <select
+            formControlName="idioma">
+
+            <option value="Castellano">
+              Castellano
+            </option>
+
+            <option value="Subtitulada">
+              Subtitulada
+            </option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <label>
+        Precio base
+      </label>
+
+
+      <input
+        type="number"
+        min="1"
+        formControlName="precio">
+
+
+      <div class="regla">
+
+        <strong>
+          Asignación automática
+        </strong>
+
+        <p>
+          El sistema buscará una sala libre
+          considerando la duración de la película
+          y 30 minutos adicionales entre funciones.
+        </p>
+
+      </div>
+
+
+      <button
+        type="submit"
+
+        [disabled]="
+          creando()
+        ">
+
+        @if (creando()) {
+
+          Buscando sala...
+
+        } @else {
+
+          Crear función
+
+        }
+
+      </button>
+
+    </form>
+
+
+    <section class="funciones">
+
+      <h2>
+        Funciones programadas
+      </h2>
+
+
+      @for (
+        funcion of funciones();
+        track funcion.id
+      ) {
+
+        <article class="funcion">
+
+          <div>
+
+            <span class="pelicula">
+
+              {{
+                funcion.peliculas?.nombre
+              }}
+
+            </span>
+
+
+            <h3>
+
+              {{
+                funcion.fecha_hora
+                | date:'dd/MM/yyyy HH:mm'
+              }}
+
+            </h3>
+
+
+            <p>
+
+              Sala:
+              <strong>
+
+                {{
+                  funcion.salas?.nombre
+                  ||
+                  funcion.sala_id
+                }}
+
+              </strong>
+
+            </p>
+
+
+            <p>
+
+              {{ funcion.formato }}
+              ·
+              {{ funcion.idioma }}
+
+            </p>
+
+
+            <p>
+
+              Duración:
+              {{ funcion.peliculas?.duracion }}
+              min
+
+            </p>
+
+
+            <strong class="precio">
+
+              ${{ funcion.precio }}
+
+            </strong>
+
+          </div>
+
+
+          <button
+            class="eliminar"
+
+            (click)="
+              eliminar(
+                funcion
+              )
+            ">
+
+            Eliminar
+
+          </button>
+
+        </article>
+
+      } @empty {
+
+        <p class="vacio">
+          No hay funciones cargadas.
+        </p>
+
+      }
+
+    </section>
+
+  </div>
+
+</section>

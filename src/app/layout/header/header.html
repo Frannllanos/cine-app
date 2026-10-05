@@ -1,0 +1,102 @@
+<header class="header">
+
+  <a routerLink="/home" class="logo">
+    🎬 Cine App
+  </a>
+
+  <nav class="nav">
+
+  <a
+    routerLink="/home"
+    routerLinkActive="activo">
+    Inicio
+  </a>
+
+
+  <a
+    routerLink="/peliculas"
+    routerLinkActive="activo">
+    Películas
+  </a>
+
+
+  <a
+    routerLink="/candy"
+    routerLinkActive="activo">
+    Candy Bar
+  </a>
+
+
+  @if (logueado()) {
+
+  @if (
+    rol() === 'cliente'
+  ) {
+
+    <a routerLink="/mis-peliculas">
+      Mis películas
+    </a>
+
+  }
+
+
+  <a routerLink="/perfil">
+    Mi perfil
+  </a>
+
+
+  @if (
+    rol() === 'empleado'
+    ||
+    rol() === 'admin'
+  ) {
+
+    <a routerLink="/empleado">
+      Empleado
+    </a>
+
+  }
+
+
+  @if (
+    rol() === 'admin'
+  ) {
+
+    <a routerLink="/admin">
+      Admin
+    </a>
+
+  }
+
+
+<a
+  (click)="cerrarSesion()"
+  style="cursor: pointer;"
+>
+  Cerrar sesión
+</a>
+
+  } @else {
+
+    <a
+      routerLink="/login"
+      routerLinkActive="activo">
+
+      Iniciar sesión
+
+    </a>
+
+
+    <a
+      routerLink="/registro"
+      routerLinkActive="activo">
+
+      Registrarse
+
+    </a>
+
+  }
+
+</nav>
+
+</header>

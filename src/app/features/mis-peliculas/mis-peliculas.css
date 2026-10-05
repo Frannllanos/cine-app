@@ -1,0 +1,223 @@
+.mis-peliculas {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 30px;
+  color: white;
+}
+
+
+.encabezado {
+  margin-bottom: 35px;
+}
+
+
+.etiqueta {
+  margin: 0;
+
+  color: #e50914;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+.encabezado h1 {
+  margin: 6px 0 10px;
+
+  font-size: 42px;
+}
+
+
+.encabezado > p:last-child {
+  color: #aaa;
+}
+
+
+/* GRID */
+
+.grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(240px, 280px)
+    );
+
+  gap: 24px;
+
+  align-items: start;
+
+  justify-content: start;
+
+  grid-auto-rows: max-content;
+}
+
+
+/* CARD */
+
+.pelicula-card {
+  display: block;
+
+  width: 100%;
+
+  height: fit-content !important;
+
+  min-height: 0 !important;
+
+  align-self: start !important;
+
+  overflow: hidden;
+
+  background: #242424;
+
+  border: 1px solid #333;
+
+  border-radius: 10px;
+}
+
+
+/* POSTER */
+
+.poster {
+  width: 100%;
+
+  height: 350px;
+
+  overflow: hidden;
+
+  background: #111;
+}
+
+
+.poster img {
+  display: block;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* CONTENIDO */
+
+.contenido {
+  display: block;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  padding: 20px;
+}
+
+
+.contenido h2 {
+  margin: 0 0 15px;
+
+  font-size: 21px;
+}
+
+
+.fecha {
+  margin: 0 0 8px;
+
+  color: #aaa;
+}
+
+
+.fecha strong {
+  color: white;
+}
+
+
+.funcion {
+  margin: 0 0 18px;
+
+  color: #888;
+
+  font-size: 13px;
+}
+
+
+.calificacion {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+
+.estrellas {
+  color: #f0c84d;
+
+  font-size: 20px;
+
+  letter-spacing: 2px;
+}
+
+
+.sin-calificar {
+  color: #888;
+
+  font-size: 13px;
+}
+
+
+.contenido a,
+.vacio a {
+  display: inline-block;
+
+  padding: 10px 14px;
+
+  background: #e50914;
+
+  color: white;
+
+  border-radius: 5px;
+
+  text-decoration: none;
+
+  font-weight: 700;
+}
+
+
+.estado,
+.vacio {
+  padding: 50px;
+
+  background: #242424;
+
+  border-radius: 9px;
+
+  text-align: center;
+}
+
+
+.vacio p {
+  margin-bottom: 20px;
+
+  color: #999;
+}
+
+
+@media (max-width: 600px) {
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .poster {
+    height: 430px;
+  }
+
+}

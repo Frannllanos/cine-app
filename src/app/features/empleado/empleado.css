@@ -1,0 +1,340 @@
+.empleado {
+  max-width: 850px;
+
+  margin: auto;
+
+  padding: 55px 30px;
+}
+
+
+.encabezado {
+  margin-bottom: 35px;
+}
+
+
+.etiqueta {
+  color: #e50914;
+
+  font-weight: bold;
+
+  font-size: 13px;
+
+  letter-spacing: 1px;
+}
+
+
+.encabezado h1 {
+  font-size: 38px;
+
+  margin:
+    8px 0 10px;
+}
+
+
+.descripcion {
+  color: #aaa;
+
+  font-size: 17px;
+}
+
+
+.buscador {
+  display: grid;
+
+  grid-template-columns:
+    1fr auto auto;
+
+  gap: 10px;
+
+  margin-bottom: 25px;
+}
+
+
+.buscador input {
+  width: 100%;
+
+  padding: 14px;
+
+  border: 1px solid #444;
+
+  border-radius: 6px;
+
+  background: #242424;
+
+  color: white;
+
+  font-size: 15px;
+}
+
+
+.buscador input:focus {
+  outline: 2px solid #e50914;
+
+  border-color: transparent;
+}
+
+
+.buscador button {
+  border: none;
+
+  border-radius: 6px;
+
+  padding:
+    0 20px;
+
+  color: white;
+
+  font-size: 15px;
+}
+
+
+.buscar {
+  background: #e50914;
+}
+
+
+.limpiar {
+  background: #444;
+}
+
+
+.mensaje {
+  margin-bottom: 25px;
+
+  background: #242424;
+
+  border-left:
+    4px solid #e50914;
+
+  padding: 14px 18px;
+
+  border-radius: 5px;
+}
+
+
+.resultado {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 25px;
+}
+
+
+.datos-compra {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+}
+
+
+.datos-compra div {
+  background: #242424;
+
+  padding: 20px;
+
+  border-radius: 8px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+
+.datos-compra span {
+  color: #999;
+
+  font-size: 13px;
+}
+
+
+.datos-compra strong {
+  font-size: 20px;
+}
+
+
+.bloque {
+  background: #242424;
+
+  padding: 25px;
+
+  border-radius: 9px;
+}
+
+
+.titulo-bloque {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  margin-bottom: 20px;
+}
+
+
+.titulo-bloque h2 {
+  margin: 0;
+}
+
+
+.items {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.item {
+  background: #181818;
+
+  padding: 15px;
+
+  border-radius: 6px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+
+.item p {
+  color: #999;
+
+  margin:
+    6px 0 0;
+}
+
+
+.estado {
+  padding:
+    6px 10px;
+
+  border-radius: 5px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+
+.valido {
+  background: #174d2a;
+
+  color: #67df8e;
+}
+
+
+.pendiente {
+  background: #574715;
+
+  color: #f0ce59;
+}
+
+
+.usado {
+  background: #5e2020;
+
+  color: #ff8585;
+}
+
+
+.accion {
+  width: 100%;
+
+  border: none;
+
+  padding: 14px;
+
+  margin-top: 20px;
+
+  border-radius: 6px;
+
+  color: white;
+
+  font-size: 16px;
+}
+
+
+.accion.entrada {
+  background: #e50914;
+}
+
+
+.accion.candy {
+  background: #b88100;
+}
+
+
+.accion:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+.vacio {
+  color: #999;
+}
+
+
+.qr-completado {
+  background: #3c1818;
+
+  border:
+    1px solid #793333;
+
+  padding: 20px;
+
+  border-radius: 8px;
+
+  text-align: center;
+}
+
+
+.qr-completado strong {
+  color: #ff8585;
+
+  font-size: 18px;
+}
+
+
+.qr-completado p {
+  margin-bottom: 0;
+
+  color: #ccc;
+}
+
+
+@media (
+  max-width: 700px
+) {
+
+  .buscador {
+    grid-template-columns: 1fr;
+  }
+
+
+  .buscador button {
+    min-height: 45px;
+  }
+
+
+  .datos-compra {
+    grid-template-columns: 1fr;
+  }
+
+}

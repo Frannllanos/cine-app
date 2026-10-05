@@ -1,0 +1,221 @@
+<section class="proximamente">
+
+  <header class="proximamente-encabezado">
+
+    <p class="proximamente-etiqueta">
+      PRÓXIMOS ESTRENOS
+    </p>
+
+    <h1>
+      Próximamente
+    </h1>
+
+    <p>
+      Películas que llegan al cine
+      durante las próximas semanas.
+    </p>
+
+  </header>
+
+
+  @if (mensaje()) {
+
+    <div class="proximamente-mensaje">
+      {{ mensaje() }}
+    </div>
+
+  }
+
+
+  <div class="proximamente-grid">
+
+    @for (
+      pelicula of peliculas();
+      track pelicula.id
+    ) {
+
+      <article class="proximamente-card">
+
+        <div class="proximamente-poster">
+
+          <img
+            [src]="pelicula.imagen_url"
+            [alt]="pelicula.nombre">
+
+
+          @if (
+            estaEnPreventa(
+              pelicula
+            )
+          ) {
+
+            <span class="proximamente-badge preventa">
+              PREVENTA
+            </span>
+
+          } @else {
+
+            <span class="proximamente-badge">
+              PRÓXIMAMENTE
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="proximamente-contenido">
+
+          <h2>
+            {{ pelicula.nombre }}
+          </h2>
+
+
+          @if (pelicula.generos) {
+
+            <div class="proximamente-generos">
+
+              @for (
+                genero of pelicula.generos;
+                track genero
+              ) {
+
+                <span>
+                  {{ genero }}
+                </span>
+
+              }
+
+            </div>
+
+          }
+
+
+          @if (
+            pelicula.fecha_estreno
+          ) {
+
+            <p class="proximamente-estreno">
+
+              Estreno:
+
+              <strong>
+                {{
+                  pelicula.fecha_estreno
+                  | date:'dd/MM/yyyy'
+                }}
+              </strong>
+
+            </p>
+
+
+            <p class="proximamente-dias">
+
+              Faltan
+
+              <strong>
+                {{
+                  diasParaEstreno(
+                    pelicula
+                  )
+                }}
+              </strong>
+
+              día(s)
+
+            </p>
+
+          }
+
+
+          @if (
+            estaEnPreventa(
+              pelicula
+            )
+          ) {
+
+            <div class="proximamente-precio">
+
+              <span>
+                Precio especial
+              </span>
+
+              <strong>
+                ${{ pelicula.precio_preventa }}
+              </strong>
+
+            </div>
+
+
+            <a
+              class="proximamente-comprar"
+              [routerLink]="[
+                '/peliculas',
+                pelicula.id
+              ]">
+
+              Comprar preventa
+
+            </a>
+
+          } @else {
+
+            <button
+              type="button"
+
+              class="proximamente-alerta"
+
+              [class.activa]="
+                alertaActiva(
+                  pelicula.id
+                )
+              "
+
+              (click)="
+                alternarAlerta(
+                  pelicula
+                )
+              ">
+
+              @if (
+                alertaActiva(
+                  pelicula.id
+                )
+              ) {
+
+                🔔 Alerta activada
+
+              } @else {
+
+                🔕 Avisarme cuando haya entradas
+
+              }
+
+            </button>
+
+          }
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <div class="proximamente-vacio">
+
+        <h2>
+          No hay próximos estrenos
+        </h2>
+
+        <p>
+          Volvé más adelante para ver
+          las próximas películas.
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>

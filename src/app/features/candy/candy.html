@@ -1,0 +1,56 @@
+<section class="candy">
+
+  <div class="titulo">
+
+    <p>CANDY BAR</p>
+
+    <h1>
+      Algo rico para acompañar tu película
+    </h1>
+
+  </div>
+
+
+  <div class="productos">
+
+    @for (
+      producto of productos();
+      track producto.id
+    ) {
+
+      <article class="producto">
+
+        <img
+          [src]="producto.imagen_url"
+          [alt]="producto.nombre">
+
+
+        <div class="info">
+
+          <span class="categoria">
+            {{ producto.categoria }}
+          </span>
+
+          <h2>
+            {{ producto.nombre }}
+          </h2>
+
+          <strong>
+            ${{ producto.precio }}
+          </strong>
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <p>
+        No hay productos disponibles.
+      </p>
+
+    }
+
+  </div>
+
+</section>

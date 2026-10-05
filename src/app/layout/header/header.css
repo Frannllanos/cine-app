@@ -1,0 +1,50 @@
+.header {
+  height: 70px;
+  background: #111;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 40px;
+}
+
+.logo {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  gap: 25px;
+}
+
+.nav a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav a:hover,
+.nav a.activo {
+  color: #e50914;
+}
+
+.cerrar-sesion {
+  background: transparent;
+
+  color: #ddd;
+
+  border: none;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
+.cerrar-sesion:hover {
+  color: #e50914;
+}

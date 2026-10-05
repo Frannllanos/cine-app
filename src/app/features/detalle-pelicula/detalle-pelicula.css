@@ -1,0 +1,465 @@
+.detalle {
+  max-width: 1150px;
+
+  margin: auto;
+
+  padding: 50px 30px;
+
+  color: white;
+}
+
+
+.principal {
+  display: grid;
+
+  grid-template-columns:
+    300px 1fr;
+
+  gap: 45px;
+
+  margin-bottom: 60px;
+}
+
+
+.poster img {
+  width: 100%;
+
+  border-radius: 10px;
+
+  display: block;
+}
+
+
+.informacion {
+  align-self: center;
+}
+
+
+.etiqueta {
+  color: #e50914;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  letter-spacing: 1px;
+}
+
+
+.informacion h1 {
+  margin:
+    8px 0 15px;
+
+  font-size: 44px;
+}
+
+
+.meta {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 15px;
+}
+
+
+.meta span,
+.generos span {
+  padding:
+    6px 10px;
+
+  background: #282828;
+
+  border-radius: 5px;
+
+  color: #ccc;
+
+  font-size: 13px;
+}
+
+
+.generos {
+  display: flex;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+
+  margin-bottom: 22px;
+}
+
+
+.sinopsis {
+  max-width: 700px;
+
+  color: #bbb;
+
+  line-height: 1.7;
+}
+
+
+.rating-principal {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-top: 25px;
+}
+
+
+.estrellas {
+  color: #f0c84d;
+
+  letter-spacing: 2px;
+
+  font-size: 21px;
+}
+
+
+.rating-principal small {
+  color: #999;
+}
+
+
+.bloque {
+  padding-top: 35px;
+
+  margin-bottom: 60px;
+
+  border-top:
+    1px solid #333;
+}
+
+
+.bloque > h2 {
+  font-size: 29px;
+
+  margin-top: 0;
+}
+
+
+.funciones {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(210px, 1fr)
+    );
+
+  gap: 15px;
+}
+
+
+.funcion-card {
+  padding: 20px;
+
+  background: #242424;
+
+  border:
+    1px solid #333;
+
+  border-radius: 8px;
+}
+
+
+.funcion-card > div {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  gap: 15px;
+}
+
+
+.funcion-card p {
+  color: #aaa;
+}
+
+
+.funcion-card .precio {
+  color: #f0c84d;
+
+  font-size: 19px;
+
+  font-weight: bold;
+}
+
+
+.funcion-card a,
+.login-resena a {
+  display: inline-block;
+
+  padding:
+    10px 14px;
+
+  background: #e50914;
+
+  color: white;
+
+  border-radius: 5px;
+
+  text-decoration: none;
+
+  font-weight: bold;
+}
+
+
+.titulo-resenas {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 25px;
+}
+
+
+.titulo-resenas h2 {
+  margin:
+    5px 0 0;
+
+  font-size: 30px;
+}
+
+
+.promedio {
+  display: flex;
+
+  align-items: baseline;
+
+  gap: 5px;
+
+  padding:
+    12px 18px;
+
+  background: #302817;
+
+  border:
+    1px solid #65501f;
+
+  border-radius: 7px;
+}
+
+
+.promedio strong {
+  color: #f0c84d;
+
+  font-size: 27px;
+}
+
+
+.promedio span {
+  color: #aaa;
+}
+
+
+.crear-resena {
+  padding: 25px;
+
+  margin-bottom: 30px;
+
+  background: #242424;
+
+  border-radius: 9px;
+}
+
+
+.crear-resena h3 {
+  margin-top: 0;
+}
+
+
+.selector-estrellas {
+  display: flex;
+
+  gap: 3px;
+
+  margin-bottom: 18px;
+}
+
+
+.selector-estrellas button {
+  padding: 0;
+
+  border: none;
+
+  background: transparent;
+
+  color: #555;
+
+  font-size: 35px;
+
+  cursor: pointer;
+}
+
+
+.selector-estrellas button.activa {
+  color: #f0c84d;
+}
+
+
+.crear-resena textarea {
+  width: 100%;
+
+  min-height: 100px;
+
+  resize: vertical;
+
+  box-sizing: border-box;
+
+  padding: 13px;
+
+  background: #181818;
+
+  border:
+    1px solid #444;
+
+  border-radius: 6px;
+
+  color: white;
+
+  font-family: inherit;
+}
+
+
+.pie-comentario {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-top: 12px;
+}
+
+
+.pie-comentario span {
+  color: #888;
+
+  font-size: 12px;
+}
+
+
+.guardar-resena {
+  padding:
+    10px 17px;
+
+  border: none;
+
+  border-radius: 5px;
+
+  background: #e50914;
+
+  color: white;
+
+  font-weight: bold;
+}
+
+
+.guardar-resena:disabled {
+  opacity: 0.5;
+}
+
+
+.mensaje-resena {
+  color: #67df8e;
+
+  margin-bottom: 0;
+}
+
+
+.login-resena {
+  margin-bottom: 30px;
+
+  padding: 20px;
+
+  background: #242424;
+
+  border-radius: 8px;
+}
+
+
+.lista-resenas {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.resena-card {
+  padding: 20px;
+
+  background: #242424;
+
+  border-radius: 8px;
+
+  border:
+    1px solid #333;
+}
+
+
+.resena-cabecera {
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+}
+
+
+.resena-card p {
+  margin:
+    15px 0;
+
+  color: #ddd;
+
+  line-height: 1.5;
+}
+
+
+.resena-card small {
+  color: #888;
+}
+
+
+.vacio {
+  color: #888;
+}
+
+
+@media (
+  max-width: 750px
+) {
+
+  .principal {
+    grid-template-columns:
+      1fr;
+  }
+
+
+  .poster {
+    max-width: 300px;
+
+    margin: auto;
+  }
+
+
+  .titulo-resenas {
+    flex-direction: column;
+
+    align-items: start;
+
+    gap: 15px;
+  }
+
+}

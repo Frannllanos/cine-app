@@ -1,0 +1,394 @@
+<section class="empleado">
+
+  <div class="encabezado">
+
+    <p class="etiqueta">
+      PERSONAL DEL CINE
+    </p>
+
+    <h1>
+      Validación de compras
+    </h1>
+
+    <p class="descripcion">
+      Escaneá el QR o ingresá manualmente
+      el código de compra.
+    </p>
+
+  </div>
+
+
+  <section class="buscador">
+
+    <input
+      type="text"
+      placeholder="Código del QR"
+      [(ngModel)]="codigo"
+      (keyup.enter)="buscar()">
+
+
+    <button
+      class="buscar"
+      (click)="buscar()">
+
+      Buscar
+
+    </button>
+
+
+    <button
+      class="limpiar"
+      (click)="limpiar()">
+
+      Limpiar
+
+    </button>
+
+  </section>
+
+
+  @if (mensaje()) {
+
+    <div class="mensaje">
+
+      {{ mensaje() }}
+
+    </div>
+
+  }
+
+
+  @if (compra()) {
+
+    <section class="resultado">
+
+      <div class="datos-compra">
+
+        <div>
+
+          <span>
+            Compra
+          </span>
+
+          <strong>
+            #{{ compra().id }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Estado
+          </span>
+
+          <strong>
+            {{ compra().estado }}
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Total
+          </span>
+
+          <strong>
+            ${{ compra().total }}
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <section class="bloque">
+
+        <div class="titulo-bloque">
+
+          <h2>
+            Entradas
+          </h2>
+
+
+          @if (
+            todasEntradasValidadas()
+          ) {
+
+            <span class="estado usado">
+
+              UTILIZADAS
+
+            </span>
+
+          } @else {
+
+            <span class="estado valido">
+
+              VÁLIDAS
+
+            </span>
+
+          }
+
+        </div>
+
+
+        @if (
+          compra().entradas.length > 0
+        ) {
+
+          <div class="items">
+
+            @for (
+              entrada of compra().entradas;
+              track entrada.id
+            ) {
+
+              <article class="item">
+
+                <div>
+
+                  <strong>
+
+                    Butaca
+                    {{ entrada.codigo_butaca }}
+
+                  </strong>
+
+
+                  <p>
+                    Tipo:
+                    {{ entrada.tipo }}
+                  </p>
+
+                </div>
+
+
+                @if (
+                  entrada.validada
+                ) {
+
+                  <span class="estado usado">
+
+                    UTILIZADA
+
+                  </span>
+
+                } @else {
+
+                  <span class="estado valido">
+
+                    VÁLIDA
+
+                  </span>
+
+                }
+
+              </article>
+
+            }
+
+          </div>
+
+
+          <button
+            class="accion entrada"
+            [disabled]="
+              todasEntradasValidadas()
+            "
+            (click)="validarEntrada()">
+
+            @if (
+              todasEntradasValidadas()
+            ) {
+
+              Entrada ya utilizada
+
+            } @else {
+
+              Validar entrada
+
+            }
+
+          </button>
+
+        } @else {
+
+          <p class="vacio">
+
+            Esta compra no tiene entradas.
+
+          </p>
+
+        }
+
+      </section>
+
+
+      <section class="bloque">
+
+        <div class="titulo-bloque">
+
+          <h2>
+            Candy Bar
+          </h2>
+
+
+          @if (
+            compra().compra_productos.length > 0
+          ) {
+
+            @if (
+              todoCandyEntregado()
+            ) {
+
+              <span class="estado usado">
+
+                ENTREGADO
+
+              </span>
+
+            } @else {
+
+              <span class="estado pendiente">
+
+                PENDIENTE
+
+              </span>
+
+            }
+
+          }
+
+        </div>
+
+
+        @if (
+          compra().compra_productos.length > 0
+        ) {
+
+          <div class="items">
+
+            @for (
+              item of compra().compra_productos;
+              track item.id
+            ) {
+
+              <article class="item">
+
+                <div>
+
+                  <strong>
+
+                    {{
+                      item.productos?.nombre
+                    }}
+
+                  </strong>
+
+
+                  <p>
+
+                    Cantidad:
+                    {{ item.cantidad }}
+
+                  </p>
+
+                </div>
+
+
+                @if (
+                  item.entregado
+                ) {
+
+                  <span class="estado usado">
+
+                    ENTREGADO
+
+                  </span>
+
+                } @else {
+
+                  <span class="estado pendiente">
+
+                    PENDIENTE
+
+                  </span>
+
+                }
+
+              </article>
+
+            }
+
+          </div>
+
+
+          <button
+            class="accion candy"
+            [disabled]="
+              todoCandyEntregado()
+            "
+            (click)="entregarCandy()">
+
+            @if (
+              todoCandyEntregado()
+            ) {
+
+              Candy ya entregado
+
+            } @else {
+
+              Marcar Candy como entregado
+
+            }
+
+          </button>
+
+        } @else {
+
+          <p class="vacio">
+
+            Esta compra no tiene productos
+            de Candy Bar.
+
+          </p>
+
+        }
+
+      </section>
+
+
+      @if (
+        todasEntradasValidadas()
+        &&
+        (
+          compra().compra_productos.length === 0
+          ||
+          todoCandyEntregado()
+        )
+      ) {
+
+        <div class="qr-completado">
+
+          <strong>
+            Compra completamente utilizada
+          </strong>
+
+          <p>
+            Este QR ya no tiene usos pendientes.
+          </p>
+
+        </div>
+
+      }
+
+    </section>
+
+  }
+
+</section>

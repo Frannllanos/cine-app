@@ -1,0 +1,450 @@
+<section class="detalle">
+
+  @if (pelicula()) {
+
+    <div class="principal">
+
+      <div class="poster">
+
+        <img
+          [src]="pelicula()!.imagen_url"
+          [alt]="pelicula()!.nombre">
+
+      </div>
+
+
+      <div class="informacion">
+
+        <p class="etiqueta">
+          EN CARTELERA
+        </p>
+
+
+        <h1>
+          {{ pelicula()!.nombre }}
+        </h1>
+
+
+        <div class="meta">
+
+          <span>
+            {{ pelicula()!.duracion }} min
+          </span>
+
+
+          @if (
+            pelicula()!.restriccion_edad
+            &&
+            pelicula()!.restriccion_edad! > 0
+          ) {
+
+            <span>
+              +{{ pelicula()!.restriccion_edad }}
+            </span>
+
+          }
+
+        </div>
+
+
+        @if (
+          pelicula()!.generos
+        ) {
+
+          <div class="generos">
+
+            @for (
+              genero of pelicula()!.generos;
+              track genero
+            ) {
+
+              <span>
+                {{ genero }}
+              </span>
+
+            }
+
+          </div>
+
+        }
+
+
+        <p class="sinopsis">
+          {{ pelicula()!.sinopsis }}
+        </p>
+
+
+        <div class="rating-principal">
+
+          <span class="estrellas">
+
+            {{
+              textoEstrellas(
+                promedioResenas()
+              )
+            }}
+
+          </span>
+
+
+          @if (
+            resenas().length > 0
+          ) {
+
+            <strong>
+
+              {{
+                promedioResenas()
+                  .toFixed(1)
+              }}
+              / 5
+
+            </strong>
+
+
+            <small>
+
+              {{
+                resenas().length
+              }}
+              reseña(s)
+
+            </small>
+
+          } @else {
+
+            <span>
+              Sin calificaciones todavía
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FUNCIONES -->
+
+    <section class="bloque">
+
+      <h2>
+        Funciones disponibles
+      </h2>
+
+
+      <div class="funciones">
+
+        @for (
+          funcion of funciones();
+          track funcion.id
+        ) {
+
+          <article class="funcion-card">
+
+            <div>
+
+              <strong>
+
+                {{
+                  funcion.fecha_hora
+                  | date:'dd/MM/yyyy'
+                }}
+
+              </strong>
+
+
+              <span>
+
+                {{
+                  funcion.fecha_hora
+                  | date:'HH:mm'
+                }}
+
+              </span>
+
+            </div>
+
+
+            <p>
+
+              {{ funcion.formato }}
+
+              ·
+
+              {{ funcion.idioma }}
+
+            </p>
+
+
+            <p class="precio">
+              ${{ funcion.precio }}
+            </p>
+
+
+            <a
+              routerLink="/compra"
+
+              [queryParams]="{
+                funcion:
+                  funcion.id
+              }">
+
+              Elegir butacas
+
+            </a>
+
+          </article>
+
+        } @empty {
+
+          <p class="vacio">
+            No hay funciones disponibles.
+          </p>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <!-- RESEÑA DEL USUARIO -->
+
+    <section class="bloque">
+
+      <div class="titulo-resenas">
+
+        <div>
+
+          <p class="etiqueta">
+            OPINIONES
+          </p>
+
+          <h2>
+            Reseñas
+          </h2>
+
+        </div>
+
+
+        @if (
+          resenas().length > 0
+        ) {
+
+          <div class="promedio">
+
+            <strong>
+
+              {{
+                promedioResenas()
+                  .toFixed(1)
+              }}
+
+            </strong>
+
+            <span>
+              / 5
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+
+      @if (logueado()) {
+
+        <div class="crear-resena">
+
+          <h3>
+            Tu calificación
+          </h3>
+
+
+          <div class="selector-estrellas">
+
+            @for (
+              estrella
+              of estrellasSeleccionables;
+
+              track estrella
+            ) {
+
+              <button
+                type="button"
+
+                [class.activa]="
+                  estrella
+                  <=
+                  puntuacion
+                "
+
+                (click)="
+                  seleccionarPuntuacion(
+                    estrella
+                  )
+                ">
+
+                ★
+
+              </button>
+
+            }
+
+          </div>
+
+
+          <textarea
+            maxlength="300"
+
+            placeholder="Dejá un comentario corto..."
+
+            [(ngModel)]="
+              comentario
+            ">
+          </textarea>
+
+
+          <div class="pie-comentario">
+
+            <span>
+
+              {{ comentario.length }}
+              / 300
+
+            </span>
+
+
+            <button
+              class="guardar-resena"
+
+              [disabled]="
+                guardando()
+              "
+
+              (click)="
+                guardarResena()
+              ">
+
+              @if (
+                guardando()
+              ) {
+
+                Guardando...
+
+              } @else {
+
+                Guardar reseña
+
+              }
+
+            </button>
+
+          </div>
+
+
+          @if (
+            mensajeResena()
+          ) {
+
+            <p class="mensaje-resena">
+
+              {{ mensajeResena() }}
+
+            </p>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="login-resena">
+
+          <p>
+            Iniciá sesión para calificar esta película.
+          </p>
+
+
+          <a routerLink="/login">
+            Iniciar sesión
+          </a>
+
+        </div>
+
+      }
+
+
+      <div class="lista-resenas">
+
+        @for (
+          resena of resenas();
+          track resena.id
+        ) {
+
+          <article class="resena-card">
+
+            <div class="resena-cabecera">
+
+              <span class="estrellas">
+
+                {{
+                  textoEstrellas(
+                    resena.puntuacion
+                  )
+                }}
+
+              </span>
+
+
+              <strong>
+
+                {{ resena.puntuacion }}
+                / 5
+
+              </strong>
+
+            </div>
+
+
+            @if (
+              resena.comentario
+            ) {
+
+              <p>
+                {{ resena.comentario }}
+              </p>
+
+            }
+
+
+            <small>
+
+              {{
+                resena.created_at
+                | date:'dd/MM/yyyy'
+              }}
+
+            </small>
+
+          </article>
+
+        } @empty {
+
+          <p class="vacio">
+            Todavía nadie calificó esta película.
+          </p>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
+</section>

@@ -1,0 +1,18 @@
+export interface Usuario {
+  id: string;
+
+  email: string;
+  nombre: string;
+  apellido: string;
+
+  fecha_nacimiento?: string;
+
+  tipo_sangre?: string;
+  color_ojos?: string;
+  dias_vacaciones?: number;
+
+  rol: 'cliente' | 'empleado' | 'admin';
+
+  puntos: number;
+  credito: number;
+}

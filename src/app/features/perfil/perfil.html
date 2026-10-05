@@ -1,0 +1,751 @@
+<section class="perfil">
+
+  @if (perfil()) {
+
+    <header class="encabezado">
+
+      <div>
+
+        <p class="etiqueta">
+          MI CUENTA
+        </p>
+
+
+        <h1>
+
+          {{ perfil().nombre }}
+          {{ perfil().apellido }}
+
+        </h1>
+
+
+        <p class="email">
+          {{ perfil().email }}
+        </p>
+
+      </div>
+
+
+      <div class="resumen-cuenta">
+
+        <div class="puntos-principal">
+
+          <span>
+            MIS PUNTOS
+          </span>
+
+          <strong>
+            {{ puntos() }}
+          </strong>
+
+          <p>
+            1 peso gastado = 1 punto
+          </p>
+
+        </div>
+
+
+        <div class="credito-principal">
+
+          <span>
+            MI CRÉDITO
+          </span>
+
+          <strong>
+
+            ${{
+              creditoDisponible()
+                .toFixed(2)
+            }}
+
+          </strong>
+
+          <p>
+            Disponible para futuras compras
+          </p>
+
+        </div>
+
+      </div>
+
+    </header>
+
+
+    @if (mensaje()) {
+
+      <div class="mensaje">
+
+        {{ mensaje() }}
+
+      </div>
+
+    }
+
+
+    <section class="seccion">
+
+      <h2>
+        Mis datos
+      </h2>
+
+
+      <div class="datos-grid">
+
+        <article>
+
+          <span>
+            Fecha de nacimiento
+          </span>
+
+          <strong>
+
+            @if (
+              perfil().fecha_nacimiento
+            ) {
+
+              {{
+                perfil().fecha_nacimiento
+                | date:'dd/MM/yyyy'
+              }}
+
+            } @else {
+
+              Sin completar
+
+            }
+
+          </strong>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            Tipo de sangre
+          </span>
+
+          <strong>
+
+            {{
+              perfil().tipo_sangre
+              ||
+              'Sin completar'
+            }}
+
+          </strong>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            Color de ojos
+          </span>
+
+          <strong>
+
+            {{
+              perfil().color_ojos
+              ||
+              'Sin completar'
+            }}
+
+          </strong>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            Días de vacaciones
+          </span>
+
+          <strong>
+
+            {{
+              perfil().dias_vacaciones
+              ??
+              'Sin completar'
+            }}
+
+          </strong>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            Crédito disponible
+          </span>
+
+          <strong>
+
+            ${{
+              creditoDisponible()
+                .toFixed(2)
+            }}
+
+          </strong>
+
+        </article>
+
+
+        <article>
+
+          <span>
+            Rol
+          </span>
+
+          <strong>
+            {{ perfil().rol }}
+          </strong>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <section class="seccion recompensas">
+
+      <div class="titulo-seccion">
+
+        <div>
+
+          <p class="etiqueta">
+            FIDELIZACIÓN
+          </p>
+
+          <h2>
+            Canjeá tus puntos
+          </h2>
+
+        </div>
+
+
+        <div class="saldo-puntos">
+
+          {{ puntos() }}
+          puntos disponibles
+
+        </div>
+
+      </div>
+
+
+      <div class="recompensas-grid">
+
+        @for (
+          recompensa of recompensas();
+          track recompensa.id
+        ) {
+
+          <article class="recompensa-card">
+
+            @if (
+              recompensa.tipo
+              ===
+              'entrada'
+            ) {
+
+              <div class="icono-recompensa">
+                🎟️
+              </div>
+
+              <span class="tipo-recompensa">
+                ENTRADA
+              </span>
+
+            } @else {
+
+              @if (
+                recompensa.productos?.imagen_url
+              ) {
+
+                <img
+                  class="imagen-recompensa"
+
+                  [src]="
+                    recompensa.productos!.imagen_url
+                  "
+
+                  [alt]="
+                    recompensa.nombre
+                  ">
+
+              } @else {
+
+                <div class="icono-recompensa">
+                  🍿
+                </div>
+
+              }
+
+
+              <span class="tipo-recompensa">
+                CANDY
+              </span>
+
+            }
+
+
+            <h3>
+              {{ recompensa.nombre }}
+            </h3>
+
+
+            @if (
+              recompensa.tipo
+              ===
+              'producto'
+            ) {
+
+              <p>
+                {{ recompensa.productos?.nombre }}
+              </p>
+
+            }
+
+
+            <strong class="costo">
+
+              {{ recompensa.costo_puntos }}
+              puntos
+
+            </strong>
+
+
+            <button
+
+              [disabled]="
+                !puedeCanjear(
+                  recompensa
+                )
+                ||
+                canjeandoId()
+                ===
+                recompensa.id
+              "
+
+              (click)="
+                canjear(
+                  recompensa
+                )
+              ">
+
+              @if (
+                canjeandoId()
+                ===
+                recompensa.id
+              ) {
+
+                Canjeando...
+
+              } @else if (
+                puedeCanjear(
+                  recompensa
+                )
+              ) {
+
+                Canjear
+
+              } @else {
+
+                Puntos insuficientes
+
+              }
+
+            </button>
+
+          </article>
+
+        } @empty {
+
+          <p class="vacio">
+            No hay recompensas disponibles.
+          </p>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <section class="seccion">
+
+      <h2>
+        Historial de canjes
+      </h2>
+
+
+      <div class="historial">
+
+        @for (
+          canje of canjes();
+          track canje.id
+        ) {
+
+          <article class="canje">
+
+            <div>
+
+              <span class="tipo-recompensa">
+
+                @if (
+                  canje.recompensas?.tipo
+                  ===
+                  'entrada'
+                ) {
+
+                  🎟️ ENTRADA
+
+                } @else {
+
+                  🍿 CANDY
+
+                }
+
+              </span>
+
+
+              <h3>
+
+                {{
+                  canje.recompensas?.nombre
+                  ||
+                  'Recompensa'
+                }}
+
+              </h3>
+
+
+              <p>
+
+                {{
+                  canje.created_at
+                  | date:'dd/MM/yyyy HH:mm'
+                }}
+
+              </p>
+
+            </div>
+
+
+            <div class="canje-derecha">
+
+              <strong>
+
+                -{{ canje.puntos_usados }}
+                puntos
+
+              </strong>
+
+
+              <span
+                class="estado-canje"
+
+                [class.utilizado]="
+                  canje.estado
+                  ===
+                  'utilizado'
+                ">
+
+                {{
+                  estadoCanje(
+                    canje
+                  )
+                }}
+
+              </span>
+
+            </div>
+
+          </article>
+
+        } @empty {
+
+          <p class="vacio">
+            Todavía no realizaste ningún canje.
+          </p>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <section class="seccion">
+
+      <h2>
+        Historial de compras
+      </h2>
+
+
+      <p class="aclaracion-cancelacion">
+
+        Las compras pueden cancelarse hasta
+        2 horas antes de la función.
+        El importe se devuelve como crédito
+        de la cuenta.
+
+      </p>
+
+
+      <div class="compras">
+
+        @for (
+          compra of compras();
+          track compra.id
+        ) {
+
+          <article
+            class="compra-card"
+
+            [class.compra-cancelada]="
+              compra.estado
+              ===
+              'cancelada'
+            ">
+
+
+            <div class="cabecera-compra">
+
+              <div>
+
+                <span>
+                  Compra #{{ compra.id }}
+                </span>
+
+
+                <p>
+
+                  {{
+                    compra.created_at
+                    | date:'dd/MM/yyyy HH:mm'
+                  }}
+
+                </p>
+
+              </div>
+
+
+              <div class="total-compra">
+
+                <strong>
+                  ${{ compra.total }}
+                </strong>
+
+
+                <span>
+
+                  @if (
+                    compra.estado
+                    ===
+                    'cancelada'
+                  ) {
+
+                    CANCELADA
+
+                  } @else {
+
+                    {{ compra.estado }}
+
+                  }
+
+                </span>
+
+              </div>
+
+            </div>
+
+
+            @if (
+              compra.estado
+              ===
+              'cancelada'
+            ) {
+
+              <div class="credito-generado">
+
+                <strong>
+                  Compra cancelada
+                </strong>
+
+
+                <p>
+
+                  Crédito generado:
+
+                  ${{
+                    creditoGenerado(
+                      compra
+                    ).toFixed(2)
+                  }}
+
+                </p>
+
+              </div>
+
+            }
+
+
+            @if (
+              compra.descuento > 0
+            ) {
+
+              <p class="descuento">
+
+                Descuento aplicado:
+                -${{ compra.descuento }}
+
+              </p>
+
+            }
+
+
+            @if (
+              compra.puntos_otorgados
+            ) {
+
+              <p class="puntos-ganados">
+
+                +{{ compra.puntos_otorgados }}
+                puntos obtenidos
+
+              </p>
+
+            }
+
+
+            @if (
+              compra.entradas?.length > 0
+            ) {
+
+              <div class="detalle-compra">
+
+                <h4>
+                  Entradas
+                </h4>
+
+
+                @for (
+                  entrada of compra.entradas;
+                  track entrada.id
+                ) {
+
+                  <p>
+
+                    Butaca
+                    {{ entrada.codigo_butaca }}
+
+                    ·
+
+                    {{ entrada.tipo }}
+
+                  </p>
+
+                }
+
+              </div>
+
+            }
+
+
+            @if (
+              compra.compra_productos?.length
+              >
+              0
+            ) {
+
+              <div class="detalle-compra">
+
+                <h4>
+                  Candy
+                </h4>
+
+
+                @for (
+                  item of compra.compra_productos;
+                  track item.id
+                ) {
+
+                  <p>
+
+                    {{
+                      item.productos?.nombre
+                    }}
+
+                    x{{ item.cantidad }}
+
+                  </p>
+
+                }
+
+              </div>
+
+            }
+
+
+            @if (
+              compra.estado
+              ===
+              'pagada'
+            ) {
+
+              <button
+                class="cancelar-compra"
+
+                [disabled]="
+                  cancelandoId()
+                  ===
+                  compra.id
+                "
+
+                (click)="
+                  cancelarCompra(
+                    compra
+                  )
+                ">
+
+                @if (
+                  cancelandoId()
+                  ===
+                  compra.id
+                ) {
+
+                  Cancelando...
+
+                } @else {
+
+                  Cancelar compra
+
+                }
+
+              </button>
+
+            }
+
+          </article>
+
+        } @empty {
+
+          <p class="vacio">
+            Todavía no realizaste compras.
+          </p>
+
+        }
+
+      </div>
+
+    </section>
+
+  }
+
+</section>

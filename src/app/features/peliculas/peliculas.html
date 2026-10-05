@@ -1,0 +1,204 @@
+<section class="peliculas">
+
+  <header class="cartelera-encabezado">
+
+    <p class="cartelera-etiqueta">
+      CARTELERA
+    </p>
+
+    <h1>
+      Películas
+    </h1>
+
+    <p>
+      Buscá una película o filtrá
+      la cartelera por género.
+    </p>
+
+  </header>
+
+
+  <section class="cartelera-filtros">
+
+    <div class="cartelera-buscador">
+
+      <label>
+        Buscar
+      </label>
+
+      <input
+        #buscar
+        type="text"
+        placeholder="Buscar por nombre..."
+        [value]="busqueda()"
+        (input)="
+          actualizarBusqueda(
+            buscar.value
+          )
+        ">
+
+    </div>
+
+
+    <div class="cartelera-filtro-genero">
+
+      <label>
+        Género
+      </label>
+
+      <select
+        #genero
+        [value]="generoSeleccionado()"
+        (change)="
+          actualizarGenero(
+            genero.value
+          )
+        ">
+
+        <option value="todos">
+          Todos los géneros
+        </option>
+
+        @for (
+          item of generosDisponibles();
+          track item
+        ) {
+
+          <option [value]="item">
+            {{ item }}
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="cartelera-limpiar"
+      (click)="limpiarFiltros()">
+
+      Limpiar filtros
+
+    </button>
+
+  </section>
+
+
+  <div class="cartelera-resultado">
+
+    {{
+      peliculasFiltradas().length
+    }}
+    película(s)
+
+  </div>
+
+
+  <div class="cartelera-grid">
+
+    @for (
+      pelicula of peliculasFiltradas();
+      track pelicula.id
+    ) {
+
+      <article class="cartelera-card">
+
+        <div class="cartelera-poster">
+
+          <img
+            [src]="pelicula.imagen_url"
+            [alt]="pelicula.nombre">
+
+          @if (
+            pelicula.restriccion_edad
+            &&
+            pelicula.restriccion_edad > 0
+          ) {
+
+            <span class="cartelera-edad">
+              +{{ pelicula.restriccion_edad }}
+            </span>
+
+          }
+
+        </div>
+
+
+        <div class="cartelera-contenido">
+
+          <h2>
+            {{ pelicula.nombre }}
+          </h2>
+
+
+          <div class="cartelera-generos">
+
+            @for (
+              item of pelicula.generos;
+              track item
+            ) {
+
+              <span>
+                {{ item }}
+              </span>
+
+            }
+
+          </div>
+
+
+          <p class="cartelera-duracion">
+            {{ pelicula.duracion }} minutos
+          </p>
+
+
+          <p class="cartelera-sinopsis">
+            {{ pelicula.sinopsis }}
+          </p>
+
+
+          <a
+            [routerLink]="[
+              '/peliculas',
+              pelicula.id
+            ]">
+
+            Ver película
+
+          </a>
+
+        </div>
+
+      </article>
+
+    } @empty {
+
+      <div class="cartelera-sin-resultados">
+
+        <h2>
+          No encontramos películas
+        </h2>
+
+        <p>
+          Probá cambiando la búsqueda
+          o el género seleccionado.
+        </p>
+
+        <button
+          type="button"
+          (click)="limpiarFiltros()">
+
+          Mostrar todas
+
+        </button>
+
+      </div>
+
+    }
+
+  </div>
+
+</section>

@@ -1,0 +1,209 @@
+<section class="registro">
+
+  <div class="registro-card">
+
+    <p class="etiqueta">
+      CREAR CUENTA
+    </p>
+
+
+    <h1>
+      Registrarse
+    </h1>
+
+
+    <p class="descripcion">
+      Creá tu cuenta y accedé a beneficios
+      exclusivos del cine.
+    </p>
+
+
+    <form
+      [formGroup]="formulario"
+      (ngSubmit)="registrar()">
+
+
+      <div class="doble">
+
+        <div>
+
+          <label>
+            Nombre
+          </label>
+
+          <input
+            type="text"
+            formControlName="nombre">
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Apellido
+          </label>
+
+          <input
+            type="text"
+            formControlName="apellido">
+
+        </div>
+
+      </div>
+
+
+      <label>
+        Email
+      </label>
+
+      <input
+        type="email"
+        formControlName="email">
+
+
+      <label>
+        Fecha de nacimiento
+      </label>
+
+      <input
+        type="date"
+        formControlName="fecha_nacimiento">
+
+
+      <div class="doble">
+
+        <div>
+
+          <label>
+            Tipo de sangre
+          </label>
+
+          <select
+            formControlName="tipo_sangre">
+
+            <option value="">
+              Seleccionar
+            </option>
+
+            <option value="A+">
+              A+
+            </option>
+
+            <option value="A-">
+              A-
+            </option>
+
+            <option value="B+">
+              B+
+            </option>
+
+            <option value="B-">
+              B-
+            </option>
+
+            <option value="AB+">
+              AB+
+            </option>
+
+            <option value="AB-">
+              AB-
+            </option>
+
+            <option value="O+">
+              O+
+            </option>
+
+            <option value="O-">
+              O-
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Color de ojos
+          </label>
+
+          <input
+            type="text"
+            formControlName="color_ojos">
+
+        </div>
+
+      </div>
+
+
+      <label>
+        Días de vacaciones por año
+      </label>
+
+      <input
+        type="number"
+        min="0"
+        formControlName="dias_vacaciones">
+
+
+      <label>
+        Contraseña
+      </label>
+
+      <input
+        type="password"
+        formControlName="password">
+
+
+      <div class="beneficio">
+
+        <strong>
+          🎟️ Beneficio de bienvenida
+        </strong>
+
+        <p>
+          Tu primera compra puede acceder
+          al descuento de bienvenida configurado
+          por el cine.
+        </p>
+
+      </div>
+
+
+      <button
+        type="submit"
+        [disabled]="formulario.invalid">
+
+        Crear cuenta
+
+      </button>
+
+
+      @if (mensaje) {
+
+        <p class="mensaje">
+
+          {{ mensaje }}
+
+        </p>
+
+      }
+
+    </form>
+
+
+    <p class="login">
+
+      ¿Ya tenés cuenta?
+
+      <a routerLink="/login">
+        Iniciar sesión
+      </a>
+
+    </p>
+
+  </div>
+
+</section>

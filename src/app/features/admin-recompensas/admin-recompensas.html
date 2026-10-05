@@ -1,0 +1,249 @@
+<section class="recompensas-admin">
+
+  <div class="encabezado">
+
+    <p>
+      FIDELIZACIÓN
+    </p>
+
+    <h1>
+      Recompensas
+    </h1>
+
+    <span>
+      Configurá cuántos puntos cuesta
+      cada beneficio.
+    </span>
+
+  </div>
+
+
+  @if (mensaje) {
+
+    <div class="mensaje">
+      {{ mensaje }}
+    </div>
+
+  }
+
+
+  <div class="contenido">
+
+    <form
+      class="formulario"
+      [formGroup]="formulario"
+      (ngSubmit)="guardar()">
+
+
+      <h2>
+        Nueva recompensa
+      </h2>
+
+
+      <label>
+        Nombre
+      </label>
+
+      <input
+        type="text"
+        placeholder="Ej: Entrada gratis"
+        formControlName="nombre">
+
+
+      <label>
+        Tipo
+      </label>
+
+      <select
+        formControlName="tipo">
+
+        <option value="entrada">
+          Entrada gratis
+        </option>
+
+        <option value="producto">
+          Producto Candy
+        </option>
+
+      </select>
+
+
+      @if (
+        formulario.value.tipo
+        ===
+        'producto'
+      ) {
+
+        <label>
+          Producto
+        </label>
+
+
+        <select
+          formControlName="producto_id">
+
+          <option [value]="0">
+            Seleccionar
+          </option>
+
+
+          @for (
+            producto of productos();
+            track producto.id
+          ) {
+
+            <option
+              [value]="producto.id">
+
+              {{ producto.nombre }}
+
+            </option>
+
+          }
+
+        </select>
+
+      }
+
+
+      <label>
+        Costo en puntos
+      </label>
+
+      <input
+        type="number"
+        min="1"
+        formControlName="costo_puntos">
+
+
+      <button type="submit">
+
+        Crear recompensa
+
+      </button>
+
+    </form>
+
+
+    <section class="lista">
+
+      <h2>
+        Recompensas configuradas
+      </h2>
+
+
+      @for (
+        recompensa of recompensas();
+        track recompensa.id
+      ) {
+
+        <article>
+
+          <span class="tipo">
+
+            @if (
+              recompensa.tipo
+              ===
+              'entrada'
+            ) {
+
+              🎟️ ENTRADA
+
+            } @else {
+
+              🍿 CANDY
+
+            }
+
+          </span>
+
+
+          <h3>
+            {{ recompensa.nombre }}
+          </h3>
+
+
+          @if (
+            recompensa.tipo
+            ===
+            'producto'
+          ) {
+
+            <p>
+              Producto:
+              {{ recompensa.productos?.nombre }}
+            </p>
+
+          }
+
+
+          <strong>
+            {{ recompensa.costo_puntos }}
+            puntos
+          </strong>
+
+
+          <p>
+
+            Estado:
+
+            @if (recompensa.activo) {
+
+              ACTIVA
+
+            } @else {
+
+              INACTIVA
+
+            }
+
+          </p>
+
+
+          <button
+            (click)="
+              cambiarEstado(
+                recompensa
+              )
+            ">
+
+            @if (recompensa.activo) {
+
+              Desactivar
+
+            } @else {
+
+              Activar
+
+            }
+
+          </button>
+
+
+          <button
+            class="eliminar"
+            (click)="
+              eliminar(
+                recompensa.id
+              )
+            ">
+
+            Eliminar
+
+          </button>
+
+        </article>
+
+      } @empty {
+
+        <p>
+          Todavía no configuraste recompensas.
+        </p>
+
+      }
+
+    </section>
+
+  </div>
+
+</section>

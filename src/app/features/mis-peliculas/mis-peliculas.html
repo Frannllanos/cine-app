@@ -1,0 +1,176 @@
+<section class="mis-peliculas">
+
+  <header class="encabezado">
+
+    <p class="etiqueta">
+      TU HISTORIAL
+    </p>
+
+    <h1>
+      Mis películas
+    </h1>
+
+    <p>
+      Películas que viste en el cine.
+    </p>
+
+  </header>
+
+
+  @if (
+    cargando()
+  ) {
+
+    <div class="estado">
+      Cargando historial...
+    </div>
+
+  } @else {
+
+
+    @if (
+      peliculas().length > 0
+    ) {
+
+      <div class="grid">
+
+        @for (
+          pelicula
+          of peliculas();
+
+          track pelicula.funcion_id
+        ) {
+
+          <article class="pelicula-card">
+
+            <div class="poster">
+
+              <img
+                [src]="pelicula.imagen_url"
+                [alt]="pelicula.nombre"
+              >
+
+            </div>
+
+
+            <div class="contenido">
+
+              <h2>
+                {{ pelicula.nombre }}
+              </h2>
+
+
+              <p class="fecha">
+
+                Vista el
+
+                <strong>
+
+                  {{
+                    pelicula.fecha_hora
+                    | date:'dd/MM/yyyy'
+                  }}
+
+                </strong>
+
+              </p>
+
+
+              <p class="funcion">
+
+                {{
+                  pelicula.fecha_hora
+                  | date:'HH:mm'
+                }}
+
+                ·
+
+                {{ pelicula.formato }}
+
+                ·
+
+                {{ pelicula.idioma }}
+
+              </p>
+
+
+              <div class="calificacion">
+
+                <span class="estrellas">
+
+                  {{
+                    estrellas(
+                      pelicula.puntuacion
+                    )
+                  }}
+
+                </span>
+
+
+                @if (
+                  pelicula.puntuacion
+                ) {
+
+                  <strong>
+
+                    {{
+                      pelicula.puntuacion
+                    }}
+                    / 5
+
+                  </strong>
+
+                } @else {
+
+                  <span class="sin-calificar">
+                    Sin calificar
+                  </span>
+
+                }
+
+              </div>
+
+
+              <a
+                [routerLink]="[
+                  '/peliculas',
+                  pelicula.pelicula_id
+                ]">
+
+                Ver película
+
+              </a>
+
+            </div>
+
+          </article>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="vacio">
+
+        <h2>
+          Todavía no hay películas vistas
+        </h2>
+
+        <p>
+          Cuando una entrada sea validada
+          en el cine, aparecerá acá.
+        </p>
+
+
+        <a routerLink="/peliculas">
+          Ver cartelera
+        </a>
+
+      </div>
+
+    }
+
+  }
+
+</section>

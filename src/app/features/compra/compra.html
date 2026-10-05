@@ -1,0 +1,764 @@
+<section class="compra">
+
+  @if (funcion()) {
+
+    <h1>
+      Seleccioná tus butacas
+    </h1>
+
+
+    @if (pelicula()) {
+
+      <h2>
+        {{ pelicula()!.nombre }}
+      </h2>
+
+    }
+
+
+    <div class="datos-funcion">
+
+      <span>
+        {{ funcion()!.formato }}
+      </span>
+
+      <span>
+        {{ funcion()!.idioma }}
+      </span>
+
+      <span>
+        Precio base:
+        ${{ funcion()!.precio }}
+      </span>
+
+    </div>
+
+
+    @if (mensajeEdad()) {
+
+      <div class="mensaje">
+
+        {{ mensajeEdad() }}
+
+      </div>
+
+    }
+
+
+    @if (!compraRealizada()) {
+
+      <div class="pantalla">
+        PANTALLA
+      </div>
+
+
+      <div class="sala">
+
+        @for (
+          fila of filas();
+          track fila.letra
+        ) {
+
+          <div class="fila">
+
+            <span class="letra">
+              {{ fila.letra }}
+            </span>
+
+
+            @for (
+              grupo of fila.grupos;
+              track $index
+            ) {
+
+              <div class="grupo">
+
+                @for (
+                  butaca of grupo;
+                  track butaca.codigo
+                ) {
+
+                  <button
+                    class="butaca"
+
+                    [class.ocupada]="
+                      estaOcupada(
+                        butaca.codigo
+                      )
+                    "
+
+                    [class.seleccionada]="
+                      estaSeleccionada(
+                        butaca.codigo
+                      )
+                    "
+
+                    [class.accesible]="
+                      butaca.tipo
+                      ===
+                      'accesible'
+                    "
+
+                    [class.vip]="
+                      butaca.tipo
+                      ===
+                      'vip'
+                    "
+
+                    [disabled]="
+                      estaOcupada(
+                        butaca.codigo
+                      )
+                      ||
+                      restriccionBloqueada()
+                    "
+
+                    (click)="
+                      seleccionar(
+                        butaca
+                      )
+                    ">
+
+                    {{ butaca.codigo }}
+
+                  </button>
+
+                }
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <div class="leyenda">
+
+        <span>
+          🟩 Disponible
+        </span>
+
+        <span>
+          🟥 Ocupada
+        </span>
+
+        <span>
+          🟦 Accesible
+        </span>
+
+        <span>
+          🟨 VIP
+        </span>
+
+      </div>
+
+
+      @if (
+        canjesDisponibles().length > 0
+      ) {
+
+        <section class="combos-compra">
+
+          <span class="combo-destacado">
+            🎁 MIS RECOMPENSAS
+          </span>
+
+          <h2>
+            Usá tus canjes
+          </h2>
+
+
+          <div class="combos-grid">
+
+            @for (
+              canje of canjesDisponibles();
+              track canje.id
+            ) {
+
+              <article class="combo-card">
+
+                <h3>
+                  {{ canje.recompensas?.nombre }}
+                </h3>
+
+
+                @if (
+                  canje.recompensas?.tipo
+                  ===
+                  'entrada'
+                ) {
+
+                  <p>
+                    🎟️ Entrada base gratis
+                  </p>
+
+                } @else {
+
+                  <p>
+
+                    🍿
+                    {{
+                      canje.recompensas
+                        ?.productos
+                        ?.nombre
+                    }}
+
+                  </p>
+
+                }
+
+
+                <button
+                  type="button"
+                  (click)="
+                    alternarCanje(
+                      canje
+                    )
+                  ">
+
+                  @if (
+                    estaCanjeSeleccionado(
+                      canje.id
+                    )
+                  ) {
+
+                    Quitar
+
+                  } @else {
+
+                    Usar recompensa
+
+                  }
+
+                </button>
+
+              </article>
+
+            }
+
+          </div>
+
+        </section>
+
+      }
+
+
+      @if (
+        combos().length > 0
+      ) {
+
+        <section class="combos-compra">
+
+          <span class="combo-destacado">
+            ⭐ COMBOS
+          </span>
+
+          <h2>
+            Combos especiales
+          </h2>
+
+
+          <div class="combos-grid">
+
+            @for (
+              combo of combos();
+              track combo.id
+            ) {
+
+              <article class="combo-card">
+
+                <h3>
+                  {{ combo.nombre }}
+                </h3>
+
+                <p>
+                  🍿 {{ combo.pochoclo?.nombre }}
+                </p>
+
+                <p>
+                  🥤 {{ combo.bebida?.nombre }}
+                </p>
+
+                <strong class="combo-precio">
+                  ${{ combo.precio }}
+                </strong>
+
+
+                <div class="cantidad">
+
+                  <button
+                    (click)="
+                      quitarCombo(
+                        combo
+                      )
+                    ">
+
+                    −
+
+                  </button>
+
+                  <span>
+                    {{ cantidadCombo(combo.id) }}
+                  </span>
+
+                  <button
+                    [disabled]="
+                      cantidadTotalCombos()
+                      >=
+                      seleccionadas().length
+                    "
+
+                    (click)="
+                      agregarCombo(
+                        combo
+                      )
+                    ">
+
+                    +
+
+                  </button>
+
+                </div>
+
+              </article>
+
+            }
+
+          </div>
+
+        </section>
+
+      }
+
+
+      <section class="candy-compra">
+
+        <h2>
+          Candy Bar
+        </h2>
+
+
+        <div class="productos-compra">
+
+          @for (
+            producto of productos();
+            track producto.id
+          ) {
+
+            <article class="producto-compra">
+
+              <img
+                [src]="producto.imagen_url"
+                [alt]="producto.nombre">
+
+
+              <h3>
+                {{ producto.nombre }}
+              </h3>
+
+
+              <p>
+                ${{ producto.precio }}
+              </p>
+
+
+              <div class="cantidad">
+
+                <button
+                  (click)="
+                    quitarProducto(
+                      producto
+                    )
+                  ">
+
+                  −
+
+                </button>
+
+                <span>
+
+                  {{
+                    cantidadProducto(
+                      producto.id
+                    )
+                  }}
+
+                </span>
+
+                <button
+                  (click)="
+                    agregarProducto(
+                      producto
+                    )
+                  ">
+
+                  +
+
+                </button>
+
+              </div>
+
+            </article>
+
+          }
+
+        </div>
+
+      </section>
+
+
+      <section class="resumen">
+
+        <h2>
+          Tu compra
+        </h2>
+
+
+        @for (
+          butaca of seleccionadas();
+          track butaca.codigo
+        ) {
+
+          <p>
+
+            {{ butaca.codigo }}
+
+            ·
+
+            {{ butaca.tipo }}
+
+            ·
+
+            ${{ butaca.precio.toFixed(2) }}
+
+          </p>
+
+        }
+
+
+        <h3>
+          Cupón
+        </h3>
+
+
+        @if (cuponAplicado()) {
+
+          <p>
+
+            {{ cuponAplicado()!.nombre }}
+
+            ·
+
+            {{ cuponAplicado()!.porcentaje }}%
+
+          </p>
+
+
+          <button
+            type="button"
+            (click)="quitarCupon()">
+
+            Quitar cupón
+
+          </button>
+
+        }
+
+
+        <input
+          type="text"
+          placeholder="Código de cupón"
+          [(ngModel)]="cuponCodigo">
+
+
+        <button
+          type="button"
+          (click)="aplicarCuponManual()">
+
+          Aplicar cupón
+
+        </button>
+
+
+        @if (cuponMensaje()) {
+
+          <p>
+            {{ cuponMensaje() }}
+          </p>
+
+        }
+
+
+        @if (
+          creditoDisponible() > 0
+        ) {
+
+          <h3>
+            Crédito de la cuenta
+          </h3>
+
+
+          <p>
+
+            Disponible:
+
+            <strong>
+
+              ${{
+                creditoDisponible()
+                  .toFixed(2)
+              }}
+
+            </strong>
+
+          </p>
+
+
+          <input
+            type="number"
+            min="0"
+
+            [max]="
+              maximoCreditoUsable()
+            "
+
+            [(ngModel)]="
+              creditoAUsar
+            ">
+
+
+          <button
+            type="button"
+            (click)="usarTodoCredito()">
+
+            Usar máximo disponible
+
+          </button>
+
+
+          <button
+            type="button"
+            (click)="quitarCredito()">
+
+            No usar crédito
+
+          </button>
+
+        }
+
+
+        <div class="totales">
+
+          <p>
+
+            Subtotal:
+
+            <strong>
+              ${{ subtotal().toFixed(2) }}
+            </strong>
+
+          </p>
+
+
+          @if (
+            descuentoRecompensas() > 0
+          ) {
+
+            <p>
+
+              Recompensas:
+
+              <strong>
+
+                -${{
+                  descuentoRecompensas()
+                    .toFixed(2)
+                }}
+
+              </strong>
+
+            </p>
+
+          }
+
+
+          @if (
+            descuentoCupon() > 0
+          ) {
+
+            <p>
+
+              Cupón:
+
+              <strong>
+
+                -${{
+                  descuentoCupon()
+                    .toFixed(2)
+                }}
+
+              </strong>
+
+            </p>
+
+          }
+
+
+          @if (
+            creditoAplicado() > 0
+          ) {
+
+            <p>
+
+              Crédito utilizado:
+
+              <strong>
+
+                -${{
+                  creditoAplicado()
+                    .toFixed(2)
+                }}
+
+              </strong>
+
+            </p>
+
+          }
+
+
+          <p>
+
+            Total de la compra:
+
+            <strong>
+
+              ${{
+                totalAntesCredito()
+                  .toFixed(2)
+              }}
+
+            </strong>
+
+          </p>
+
+
+          <h3>
+
+            A pagar:
+
+            ${{ total().toFixed(2) }}
+
+          </h3>
+
+        </div>
+
+
+        <button
+          class="confirmar"
+
+          [disabled]="
+            seleccionadas().length
+            ===
+            0
+            ||
+            restriccionBloqueada()
+          "
+
+          (click)="
+            confirmarCompra()
+          ">
+
+          Confirmar compra
+
+        </button>
+
+      </section>
+
+    }
+
+
+    @if (
+      compraRealizada()
+    ) {
+
+      <section class="exito">
+
+        <h2>
+          ✅ Compra realizada
+        </h2>
+
+
+        <p>
+
+          Valor de la compra:
+          ${{ totalCompra().toFixed(2) }}
+
+        </p>
+
+
+        @if (
+          creditoUsadoCompra() > 0
+        ) {
+
+          <p>
+
+            Crédito utilizado:
+            ${{ creditoUsadoCompra().toFixed(2) }}
+
+          </p>
+
+        }
+
+
+        <p>
+
+          Pagado:
+          ${{ montoPagadoCompra().toFixed(2) }}
+
+        </p>
+
+
+        <img
+          class="qr"
+          [src]="qrImagen()"
+          alt="QR de compra">
+
+
+        <strong>
+          {{ codigoCompra() }}
+        </strong>
+
+
+        <button
+          class="descargar"
+          (click)="descargarEntrada()">
+
+          Descargar entrada PDF
+
+        </button>
+
+
+        <a routerLink="/peliculas">
+          Volver a cartelera
+        </a>
+
+      </section>
+
+    }
+
+  }
+
+
+  @if (mensaje()) {
+
+    <p class="mensaje">
+      {{ mensaje() }}
+    </p>
+
+  }
+
+</section>

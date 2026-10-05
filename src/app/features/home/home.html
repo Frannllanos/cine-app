@@ -1,0 +1,180 @@
+<section class="home">
+
+  <section class="hero">
+
+    <div>
+
+      <p class="etiqueta">
+        CINE APP
+      </p>
+
+
+      <h1>
+        Tu próxima película
+        empieza acá
+      </h1>
+
+
+      <p class="descripcion">
+
+        Elegí la película,
+        la función y tu butaca
+        desde un solo lugar.
+
+      </p>
+
+
+      <div class="acciones">
+
+        <a
+          routerLink="/peliculas"
+          class="principal">
+
+          Ver cartelera
+
+        </a>
+
+
+        <a
+          routerLink="/proximamente"
+          class="secundario">
+
+          Próximamente
+
+        </a>
+
+
+        <a
+          routerLink="/candy"
+          class="secundario">
+
+          Candy Bar
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="mas-vendidas">
+
+    <div class="titulo">
+
+      <div>
+
+        <p class="etiqueta">
+          MÁS ELEGIDAS
+        </p>
+
+        <h2>
+          Top 3 películas
+        </h2>
+
+      </div>
+
+
+      <a routerLink="/peliculas">
+        Ver toda la cartelera
+      </a>
+
+    </div>
+
+
+    <div class="top-grid">
+
+      @for (
+        pelicula
+        of topPeliculas();
+
+        track pelicula.id;
+
+        let posicion = $index
+      ) {
+
+        <article class="top-card">
+
+          <div class="poster">
+
+            <img
+              [src]="pelicula.imagen_url"
+
+              [alt]="pelicula.nombre">
+
+
+            <span class="posicion">
+
+              #{{ posicion + 1 }}
+
+            </span>
+
+          </div>
+
+
+          <div class="contenido">
+
+            <h3>
+              {{ pelicula.nombre }}
+            </h3>
+
+
+            <div class="generos">
+
+              @for (
+                genero of pelicula.generos;
+                track genero
+              ) {
+
+                <span>
+                  {{ genero }}
+                </span>
+
+              }
+
+            </div>
+
+
+            @if (
+              pelicula.ventas !== undefined
+            ) {
+
+              <p class="ventas">
+
+                🎟️
+                {{ pelicula.ventas }}
+                entrada(s) vendida(s)
+
+              </p>
+
+            }
+
+
+            <a
+              [routerLink]="[
+                '/peliculas',
+                pelicula.id
+              ]">
+
+              Ver funciones
+
+            </a>
+
+          </div>
+
+        </article>
+
+      } @empty {
+
+        <p>
+          Todavía no hay películas disponibles.
+        </p>
+
+      }
+
+    </div>
+
+  </section>
+
+</section>
